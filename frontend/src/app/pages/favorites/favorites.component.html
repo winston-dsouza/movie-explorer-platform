@@ -1,0 +1,108 @@
+<div class="container py-5">
+  <!-- Hero Section -->
+  <div class="hero-section text-center text-white py-5 rounded-3 mb-5">
+    <h1 class="display-4 fw-bold mb-3">
+      <i class="bi bi-heart-fill me-3"></i>My Favorites
+    </h1>
+    <p class="lead">Your personally curated collection of favorite movies</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && favoriteMovies.length === 0" class="text-center py-5">
+    <div class="empty-state">
+      <i class="bi bi-heart display-1 text-muted mb-3"></i>
+      <h3 class="text-muted">No favorite movies yet</h3>
+      <p class="text-muted mb-4">Start exploring and add movies to your favorites!</p>
+      <a routerLink="/movies" class="btn btn-primary">
+        <i class="bi bi-film me-2"></i>Browse Movies
+      </a>
+    </div>
+  </div>
+
+  <!-- Favorites Grid -->
+  <div *ngIf="!loading && favoriteMovies.length > 0" class="row g-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">
+          <span class="badge bg-primary">{{ favoriteMovies.length }}</span>
+          {{ favoriteMovies.length === 1 ? 'Movie' : 'Movies' }} in your favorites
+        </h4>
+        <a routerLink="/movies" class="btn btn-outline-primary">
+          <i class="bi bi-plus-circle me-2"></i>Add More
+        </a>
+      </div>
+    </div>
+
+    <div *ngFor="let movie of favoriteMovies" class="col-md-6 col-lg-4">
+      <div class="card h-100 movie-card shadow-sm">
+        <img 
+          [src]="movie.poster_url || getDefaultPoster()" 
+          class="card-img-top" 
+          [alt]="movie.title"
+          style="height: 450px; object-fit: cover;">
+        
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ movie.title }}</h5>
+          
+          <div class="mb-2">
+            <small class="text-muted">
+              <i class="bi bi-calendar3 me-1"></i>{{ movie.release_year }}
+            </small>
+            <span class="mx-2">·</span>
+            <small class="text-muted">
+              <i class="bi bi-clock me-1"></i>{{ movie.runtime_minutes }} min
+            </small>
+          </div>
+
+          <div class="rating mb-2">
+            <i *ngFor="let star of getRatingStars(movie.rating || 0)" 
+               [class]="star + ' text-warning'"></i>
+            <small class="ms-2 text-muted">{{ movie.rating || 0 }}/5</small>
+          </div>
+
+          <p class="card-text flex-grow-1">
+            {{ movie.description ? (movie.description | slice:0:100) : '' }}{{ (movie.description?.length || 0) > 100 ? '...' : '' }}
+          </p>
+
+          <div class="d-flex gap-2">
+            <a [routerLink]="['/movies', movie.id]" class="btn btn-primary btn-sm flex-grow-1">
+              <i class="bi bi-eye me-1"></i>View Details
+            </a>
+            
+            <button 
+              (click)="addToWatchLater(movie.id)" 
+              class="btn btn-sm"
+              [class.btn-outline-secondary]="!isInWatchLater(movie.id)"
+              [class.btn-secondary]="isInWatchLater(movie.id)"
+              [disabled]="isInWatchLater(movie.id)"
+              title="Add to Watch Later">
+              <i class="bi"
+                 [class.bi-clock]="!isInWatchLater(movie.id)"
+                 [class.bi-check-circle]="isInWatchLater(movie.id)"></i>
+            </button>
+
+            <button 
+              (click)="removeFromFavorites(movie.id)" 
+              class="btn btn-outline-danger btn-sm"
+              title="Remove from Favorites">
+              <i class="bi bi-heart-fill"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Backend FastAPI service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: movie-explorer-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - backend-db:/app/database
+    environment:
+      - DATABASE_URL=sqlite:////app/database/movie_explorer.db
+      - PYTHONUNBUFFERED=1
+    networks:
+      - movie-explorer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Angular service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: movie-explorer-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - movie-explorer-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Database viewer (Adminer)
+  adminer:
+    image: adminer
+    container_name: movie-explorer-adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - movie-explorer-network
+    restart: unless-stopped
+    profiles:
+      - debug
+
+networks:
+  movie-explorer-network:
+    driver: bridge
+
+volumes:
+  backend-db:
+    driver: local

@@ -1,0 +1,103 @@
+<div class="container py-4">
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
+  </div>
+
+  <!-- Movie Details -->
+  <div *ngIf="movie && !loading" class="row">
+    <div class="col-md-4">
+      <img 
+        [src]="movie.poster_url || getDefaultPoster()" 
+        class="img-fluid rounded shadow" 
+        [alt]="movie.title">
+      <div class="mt-3 d-grid gap-2">
+        <button 
+          class="btn"
+          (click)="toggleFavorite()"
+          [class.btn-danger]="favoritesService.isFavorite(movie.id)"
+          [class.btn-outline-danger]="!favoritesService.isFavorite(movie.id)">
+          <i class="bi" [class.bi-heart-fill]="favoritesService.isFavorite(movie.id)"
+             [class.bi-heart]="!favoritesService.isFavorite(movie.id)"></i>
+          {{ favoritesService.isFavorite(movie.id) ? 'Remove from Favorites' : 'Add to Favorites' }}
+        </button>
+        <button 
+          class="btn"
+          (click)="toggleWatchLater()"
+          [class.btn-primary]="favoritesService.isWatchLater(movie.id)"
+          [class.btn-outline-primary]="!favoritesService.isWatchLater(movie.id)">
+          <i class="bi" [class.bi-clock-fill]="favoritesService.isWatchLater(movie.id)"
+             [class.bi-clock]="!favoritesService.isWatchLater(movie.id)"></i>
+          {{ favoritesService.isWatchLater(movie.id) ? 'Remove from Watch Later' : 'Add to Watch Later' }}
+        </button>
+      </div>
+    </div>
+    
+    <div class="col-md-8">
+      <h1 class="display-4">{{ movie.title }}</h1>
+      
+      <div class="mb-3">
+        <span *ngFor="let genre of movie.genres" class="badge bg-primary me-2 mb-2">
+          {{ genre.name }}
+        </span>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <p class="mb-2">
+            <strong><i class="bi bi-calendar me-2"></i>Release Year:</strong> {{ movie.release_year }}
+          </p>
+          <p class="mb-2" *ngIf="movie.runtime_minutes">
+            <strong><i class="bi bi-clock me-2"></i>Runtime:</strong> {{ movie.runtime_minutes }} minutes
+          </p>
+          <p class="mb-2" *ngIf="movie.rating">
+            <strong><i class="bi bi-star-fill text-warning me-2"></i>Rating:</strong> {{ movie.rating }}/10
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <p class="mb-2" *ngIf="movie.director">
+            <strong><i class="bi bi-camera-reels me-2"></i>Director:</strong>
+            <a [routerLink]="['/directors', movie.director.id]" class="text-decoration-none">
+              {{ movie.director.name }}
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="mb-4" *ngIf="movie.description">
+        <h3>Synopsis</h3>
+        <p>{{ movie.description }}</p>
+      </div>
+
+      <!-- Cast Section -->
+      <div class="mb-4" *ngIf="movie.actors && movie.actors.length > 0">
+        <h3>Cast</h3>
+        <div class="row g-3">
+          <div *ngFor="let actor of movie.actors" class="col-6 col-md-4 col-lg-3">
+            <a [routerLink]="['/actors', actor.id]" class="text-decoration-none">
+              <div class="text-center">
+                <img 
+                  [src]="actor.photo_url || getDefaultProfileImage()" 
+                  class="rounded-circle mb-2" 
+                  width="80" 
+                  height="80"
+                  style="object-fit: cover;"
+                  [alt]="actor.name">
+                <p class="small mb-0">{{ actor.name }}</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>

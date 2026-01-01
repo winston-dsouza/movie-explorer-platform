@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="bi bi-film me-2"></i>
+      Movie Explorer
+    </a>
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      (click)="toggleNavbar()"
+      [attr.aria-expanded]="!isNavbarCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="!isNavbarCollapsed">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/movies" routerLinkActive="active">
+            <i class="bi bi-collection-play me-1"></i>
+            Movies
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/actors" routerLinkActive="active">
+            <i class="bi bi-people me-1"></i>
+            Actors
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/directors" routerLinkActive="active">
+            <i class="bi bi-camera-reels me-1"></i>
+            Directors
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/favorites" routerLinkActive="active">
+            <i class="bi bi-heart me-1"></i>
+            Favorites
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/watch-later" routerLinkActive="active">
+            <i class="bi bi-clock me-1"></i>
+            Watch Later
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="bg-dark text-white mt-5 py-4">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2024 Movie Explorer Platform. All rights reserved.</p>
+    <p class="mb-0 mt-2">
+      <small>Built with Angular & FastAPI</small>
+    </p>
+  </div>
+</footer>

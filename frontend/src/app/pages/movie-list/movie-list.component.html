@@ -1,0 +1,133 @@
+<div class="hero-section">
+  <div class="container">
+    <h1 class="display-4 mb-4">Explore Movies</h1>
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        <div class="input-group input-group-lg">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search movies by title or description..." 
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="onSearch()">
+          <button class="btn btn-light" type="button" (click)="onSearch()">
+            <i class="bi bi-search"></i> Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- Filters Section -->
+  <div class="filter-section">
+    <h5 class="mb-3">Filters</h5>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label for="genre-filter" class="form-label">Genre</label>
+        <select id="genre-filter" class="form-select" [(ngModel)]="selectedGenreId" (change)="onFilterChange()">
+          <option [ngValue]="null">All Genres</option>
+          <option *ngFor="let genre of genres" [ngValue]="genre.id">{{ genre.name }}</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="director-filter" class="form-label">Director</label>
+        <select id="director-filter" class="form-select" [(ngModel)]="selectedDirectorId" (change)="onFilterChange()">
+          <option [ngValue]="null">All Directors</option>
+          <option *ngFor="let director of directors" [ngValue]="director.id">{{ director.name }}</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="actor-filter" class="form-label">Actor</label>
+        <select id="actor-filter" class="form-select" [(ngModel)]="selectedActorId" (change)="onFilterChange()">
+          <option [ngValue]="null">All Actors</option>
+          <option *ngFor="let actor of actors" [ngValue]="actor.id">{{ actor.name }}</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="year-filter" class="form-label">Release Year</label>
+        <select id="year-filter" class="form-select" [(ngModel)]="selectedYear" (change)="onFilterChange()">
+          <option [ngValue]="null">All Years</option>
+          <option *ngFor="let year of years" [ngValue]="year">{{ year }}</option>
+        </select>
+      </div>
+      <div class="col-md-1 d-flex align-items-end">
+        <button class="btn btn-secondary w-100" (click)="clearFilters()">
+          <i class="bi bi-x-circle"></i> Clear
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
+  </div>
+
+  <!-- Movies Grid -->
+  <div *ngIf="!loading && !error && movies.length > 0" class="row g-4">
+    <div *ngFor="let movie of movies" class="col-md-6 col-lg-4 col-xl-3">
+      <div class="card movie-card h-100">
+        <a [routerLink]="['/movies', movie.id]" class="text-decoration-none">
+          <div class="position-relative">
+            <img 
+              [src]="movie.poster_url || getDefaultPoster()" 
+              class="card-img-top movie-poster" 
+              [alt]="movie.title">
+            <div class="position-absolute top-0 end-0 p-2">
+              <button 
+                class="btn btn-sm btn-danger me-1"
+                (click)="toggleFavorite($event, movie.id)"
+                [class.btn-danger]="favoritesService.isFavorite(movie.id)"
+                [class.btn-outline-danger]="!favoritesService.isFavorite(movie.id)">
+                <i class="bi" [class.bi-heart-fill]="favoritesService.isFavorite(movie.id)"
+                   [class.bi-heart]="!favoritesService.isFavorite(movie.id)"></i>
+              </button>
+              <button 
+                class="btn btn-sm"
+                (click)="toggleWatchLater($event, movie.id)"
+                [class.btn-primary]="favoritesService.isWatchLater(movie.id)"
+                [class.btn-outline-primary]="!favoritesService.isWatchLater(movie.id)">
+                <i class="bi" [class.bi-clock-fill]="favoritesService.isWatchLater(movie.id)"
+                   [class.bi-clock]="!favoritesService.isWatchLater(movie.id)"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-dark">{{ movie.title }}</h5>
+            <p class="card-text text-muted small">
+              <i class="bi bi-calendar me-1"></i>{{ movie.release_year }}
+              <span *ngIf="movie.director" class="ms-2">
+                <i class="bi bi-camera-reels me-1"></i>{{ movie.director.name }}
+              </span>
+            </p>
+            <div class="mb-2">
+              <span *ngFor="let genre of movie.genres" class="badge bg-secondary badge-genre">
+                {{ genre.name }}
+              </span>
+            </div>
+            <div *ngIf="movie.rating" class="text-warning">
+              <i class="bi bi-star-fill rating-star"></i>
+              <span class="text-dark ms-1">{{ movie.rating }}/10</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Movies Message -->
+  <div *ngIf="!loading && !error && movies.length === 0" class="no-data-message">
+    <i class="bi bi-film display-1"></i>
+    <h3 class="mt-3">No movies found</h3>
+    <p>Try adjusting your search or filters</p>
+  </div>
+</div>

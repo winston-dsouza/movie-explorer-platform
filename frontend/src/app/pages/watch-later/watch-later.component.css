@@ -1,0 +1,70 @@
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.stats-bar {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.stat-item {
+  padding: 1rem;
+}
+
+.movie-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.empty-state {
+  padding: 3rem;
+}
+
+.empty-state i {
+  font-size: 5rem;
+}
+
+.rating i {
+  font-size: 0.9rem;
+}
+
+.card-img-top {
+  transition: opacity 0.3s ease;
+}
+
+.movie-card:hover .card-img-top {
+  opacity: 0.95;
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.badge {
+  backdrop-filter: blur(10px);
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .stat-item {
+    margin-bottom: 1.5rem;
+  }
+  
+  .stat-item:last-child {
+    margin-bottom: 0;
+  }
+}

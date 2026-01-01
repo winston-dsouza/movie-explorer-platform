@@ -1,0 +1,817 @@
+/* ======================================
+   IMDb-Inspired Movie Explorer Theme
+   Dark Cinematic Design with Yellow Accents
+   ====================================== */
+
+/* CSS Variables - IMDb Color Palette */
+:root {
+  --imdb-yellow: #F5C518;
+  --imdb-yellow-dark: #ddb615;
+  --imdb-yellow-light: #f7d354;
+  --imdb-black: #000000;
+  --imdb-dark: #0f0f0f;
+  --imdb-darker: #1a1a1a;
+  --imdb-gray: #2a2a2a;
+  --imdb-light-gray: #3a3a3a;
+  
+  --primary-color: #F5C518;
+  --primary-dark: #ddb615;
+  --primary-light: #f7d354;
+  --secondary-color: #ff8800;
+  --accent-color: #F5C518;
+  
+  --dark-bg: #0f0f0f;
+  --darker-bg: #000000;
+  --card-bg: #1a1a1a;
+  --card-hover-bg: #252525;
+  --light-bg: #121212;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #808080;
+  --border-color: #2a2a2a;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --shadow-yellow: 0 4px 20px rgba(245, 197, 24, 0.3);
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --border-radius: 8px;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Movie Card Styles */
+.movie-card {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  cursor: pointer;
+  height: 100%;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-yellow);
+}
+
+.movie-card .card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background: var(--card-bg);
+  transition: all var(--transition-normal);
+}
+
+.movie-card .card:hover {
+  background: var(--card-hover-bg);
+  border-color: var(--imdb-yellow);
+  box-shadow: var(--shadow-lg);
+}
+
+.movie-card .card-body {
+  background: var(--card-bg);
+  padding: 1rem;
+}
+
+.movie-card .card-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.movie-card .card-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  background: linear-gradient(135deg, var(--card-bg) 0%, var(--darker-bg) 100%);
+  transition: transform var(--transition-normal);
+}
+
+.movie-card:hover .movie-poster {
+  transform: scale(1.05);
+}
+
+/* Badge Styles */
+.badge-genre {
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  background-color: rgba(245, 197, 24, 0.15);
+  color: var(--imdb-yellow);
+  border: 1px solid rgba(245, 197, 24, 0.3);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all var(--transition-fast);
+}
+
+.badge-genre:hover {
+  background-color: var(--imdb-yellow);
+  color: var(--darker-bg);
+  border-color: var(--imdb-yellow);
+  transform: translateY(-2px);
+}
+
+.rating-star {
+  color: var(--imdb-yellow);
+  text-shadow: 0 0 8px rgba(245, 197, 24, 0.5);
+}
+
+/* Search Container - IMDb Style */
+.search-container {
+  background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+  background-size: cover;
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--imdb-yellow);
+}
+
+.search-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(245, 197, 24, 0.03) 50%, 
+    transparent 100%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.search-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.search-container .form-control {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-size: 1.1rem;
+  transition: all var(--transition-fast);
+}
+
+.search-container .form-control:focus {
+  background: var(--card-hover-bg);
+  border-color: var(--imdb-yellow);
+  box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.2);
+  color: var(--text-primary);
+}
+
+.search-container .form-control::placeholder {
+  color: var(--text-muted);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(180deg, 
+    rgba(0, 0, 0, 0.9) 0%, 
+    rgba(15, 15, 15, 0.95) 50%, 
+    rgba(0, 0, 0, 0.9) 100%);
+  padding: 6rem 0;
+  color: white;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--imdb-yellow);
+  box-shadow: inset 0 -60px 80px -40px rgba(245, 197, 24, 0.1);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background: var(--dark-bg);
+}
+
+.spinner-border {
+  color: var(--imdb-yellow) !important;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-width: 0.4rem;
+  filter: drop-shadow(0 0 10px rgba(245, 197, 24, 0.5));
+  animation: glow-pulse 2s infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 8px rgba(245, 197, 24, 0.4));
+  }
+  50% { 
+    filter: drop-shadow(0 0 16px rgba(245, 197, 24, 0.8));
+  }
+}
+
+/* Actor & Director Cards */
+.actor-card,
+.director-card {
+  transition: all var(--transition-normal);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.actor-card:hover,
+.director-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-yellow);
+}
+
+.actor-card .card,
+.director-card .card {
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-normal);
+}
+
+.actor-card .card:hover,
+.director-card .card:hover {
+  background: var(--card-hover-bg);
+  border-color: var(--imdb-yellow);
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--imdb-yellow);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-yellow);
+}
+
+/* No Data Message */
+.no-data-message {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+/* Filter Section - IMDb Style */
+.filter-section {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.filter-section label {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.filter-section .form-control,
+.filter-section .form-select {
+  border-radius: 6px;
+  border: 2px solid var(--border-color);
+  padding: 0.65rem 1rem;
+  transition: all var(--transition-fast);
+  background: var(--darker-bg);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.filter-section .form-control:focus,
+.filter-section .form-select:focus {
+  border-color: var(--imdb-yellow);
+  box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
+  outline: none;
+  background: var(--card-bg);
+}
+
+.filter-section .form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.filter-section .form-select option {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+/* Buttons - IMDb Yellow Style */
+.btn-primary {
+  background-color: var(--imdb-yellow);
+  border-color: var(--imdb-yellow);
+  color: var(--imdb-black);
+  border-radius: 6px;
+  padding: 0.65rem 1.5rem;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--imdb-yellow-dark);
+  border-color: var(--imdb-yellow-dark);
+  color: var(--imdb-black);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-yellow);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline-primary {
+  color: var(--imdb-yellow);
+  border-color: var(--imdb-yellow);
+  background: transparent;
+  border-radius: 6px;
+  padding: 0.65rem 1.5rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--imdb-yellow);
+  border-color: var(--imdb-yellow);
+  color: var(--imdb-black);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-yellow);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-dark);
+  border-color: var(--secondary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+  color: var(--text-secondary);
+  border-color: var(--border-color);
+  background: transparent;
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--card-hover-bg);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+/* Favorite Button */
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--imdb-yellow);
+}
+
+.favorite-btn:hover {
+  transform: scale(1.15);
+  background: var(--imdb-yellow);
+  box-shadow: var(--shadow-yellow);
+}
+
+.favorite-btn i {
+  font-size: 1.4rem;
+  color: var(--imdb-yellow);
+}
+
+.favorite-btn:hover i {
+  color: var(--imdb-black);
+}
+
+/* Card Enhancements */
+.card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  background: var(--card-bg);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--imdb-yellow);
+}
+
+.card-body {
+  padding: 1.5rem;
+  background: var(--card-bg);
+}
+
+.card-title {
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.card-text {
+  color: var(--text-secondary);
+}
+
+/* Navbar - IMDb Black Style */
+.navbar-dark {
+  background: var(--imdb-black) !important;
+  box-shadow: var(--shadow-md);
+  border-bottom: 3px solid var(--imdb-yellow);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--imdb-yellow) !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all var(--transition-fast);
+}
+
+.navbar-brand:hover {
+  color: var(--imdb-yellow-light) !important;
+  text-shadow: 0 0 20px rgba(245, 197, 24, 0.5);
+}
+
+.navbar-brand i {
+  color: var(--imdb-yellow);
+}
+
+.nav-link {
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  border-radius: 6px;
+  padding: 0.5rem 1rem !important;
+  margin: 0 0.25rem;
+  color: var(--text-secondary) !important;
+}
+
+.nav-link:hover {
+  background-color: rgba(245, 197, 24, 0.1);
+  color: var(--imdb-yellow) !important;
+}
+
+.nav-link.active {
+  background-color: var(--imdb-yellow) !important;
+  color: var(--imdb-black) !important;
+  font-weight: 700;
+}
+
+.nav-link i {
+  margin-right: 0.25rem;
+}
+
+/* Alerts - Dark Theme */
+.alert {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.alert-danger {
+  background: rgba(220, 53, 69, 0.1);
+  border-color: rgba(220, 53, 69, 0.3);
+  color: #ff6b6b;
+}
+
+.alert-info {
+  background: rgba(13, 202, 240, 0.1);
+  border-color: rgba(13, 202, 240, 0.3);
+  color: #4dd4ff;
+}
+
+.alert-success {
+  background: rgba(25, 135, 84, 0.1);
+  border-color: rgba(25, 135, 84, 0.3);
+  color: #51cf66;
+}
+
+/* Form Controls - Dark Theme */
+.form-control,
+.form-select {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background: var(--card-hover-bg);
+  border-color: var(--imdb-yellow);
+  box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
+  color: var(--text-primary);
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.form-label {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Performance: Will-change for animated elements */
+.movie-card,
+.actor-card,
+.director-card,
+.btn {
+  will-change: transform;
+}
+
+/* Responsive Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Typography Enhancements */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+/* Utility Classes */
+.text-primary {
+  color: var(--imdb-yellow) !important;
+}
+
+.bg-primary {
+  background-color: var(--imdb-yellow) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark-bg) !important;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.border-primary {
+  border-color: var(--imdb-yellow) !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Focus Styles for Accessibility */
+*:focus {
+  outline: 2px solid var(--imdb-yellow);
+  outline-offset: 2px;
+}
+
+button:focus,
+a:focus {
+  outline: 2px solid var(--imdb-yellow);
+  outline-offset: 2px;
+}
+
+/* Scrollbar Styling - Dark Theme */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--imdb-gray);
+  border-radius: 6px;
+  border: 2px solid var(--darker-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--imdb-yellow);
+}
+
+/* Text Selection */
+::selection {
+  background: var(--imdb-yellow);
+  color: var(--imdb-black);
+}
+
+::-moz-selection {
+  background: var(--imdb-yellow);
+  color: var(--imdb-black);
+}
+
+/* Container Adjustments */
+.container {
+  max-width: 1400px;
+}
+
+/* Bootstrap Overrides for Dark Theme */
+.bg-light {
+  background-color: var(--card-bg) !important;
+}
+
+.bg-white {
+  background-color: var(--card-bg) !important;
+}
+
+.text-dark {
+  color: var(--text-primary) !important;
+}
+
+.border {
+  border-color: var(--border-color) !important;
+}
+
+/* Hover Effects */
+.hover-effect {
+  transition: all var(--transition-normal);
+}
+
+.hover-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Rating Display */
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rating i {
+  color: var(--imdb-yellow);
+}
+
+/* Placeholder Styles */
+.placeholder-poster {
+  width: 100%;
+  height: 300px;
+  background: linear-gradient(135deg, var(--card-bg) 0%, var(--darker-bg) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.placeholder-poster i {
+  font-size: 4rem;
+  opacity: 0.5;
+}
+
+/* Link Styles */
+a {
+  color: var(--imdb-yellow);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+a:hover {
+  color: var(--imdb-yellow-light);
+  text-decoration: none;
+}
+
+/* List Styles */
+.list-group-item {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.list-group-item:hover {
+  background: var(--card-hover-bg);
+}
+
+/* Table Styles */
+.table {
+  color: var(--text-primary);
+}
+
+.table-dark {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Modal Overrides */
+.modal-content {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.modal-header {
+  border-bottom-color: var(--border-color);
+}
+
+.modal-footer {
+  border-top-color: var(--border-color);
+}
+
+/* Dropdown Overrides */
+.dropdown-menu {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dropdown-item {
+  color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+  background: var(--card-hover-bg);
+  color: var(--imdb-yellow);
+}

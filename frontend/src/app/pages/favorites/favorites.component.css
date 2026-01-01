@@ -1,0 +1,47 @@
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.movie-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.empty-state {
+  padding: 3rem;
+}
+
+.empty-state i {
+  font-size: 5rem;
+}
+
+.rating i {
+  font-size: 0.9rem;
+}
+
+.card-img-top {
+  transition: opacity 0.3s ease;
+}
+
+.movie-card:hover .card-img-top {
+  opacity: 0.95;
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.badge {
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+}

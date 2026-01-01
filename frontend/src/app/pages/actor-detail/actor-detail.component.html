@@ -1,0 +1,111 @@
+<div class="container mt-4">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle me-2"></i>{{ error }}
+  </div>
+
+  <!-- Actor Details -->
+  <div *ngIf="actor && !loading" class="actor-detail">
+    <!-- Back Button -->
+    <button class="btn btn-outline-secondary mb-4" (click)="goBack()">
+      <i class="bi bi-arrow-left me-2"></i>Back to Actors
+    </button>
+
+    <!-- Actor Profile -->
+    <div class="row">
+      <div class="col-md-4">
+        <div class="actor-photo-container">
+          <img 
+            *ngIf="actor.photo_url" 
+            [src]="actor.photo_url" 
+            [alt]="actor.name"
+            class="img-fluid rounded shadow"
+            onerror="this.src='https://via.placeholder.com/400x600?text=No+Photo'"
+          >
+          <div *ngIf="!actor.photo_url" class="no-photo rounded shadow">
+            <i class="bi bi-person-fill"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <h1 class="display-4 mb-3">{{ actor.name }}</h1>
+        
+        <!-- Actor Info -->
+        <div class="actor-info mb-4">
+          <div class="info-item" *ngIf="actor.nationality">
+            <i class="bi bi-globe me-2 text-primary"></i>
+            <strong>Nationality:</strong> {{ actor.nationality }}
+          </div>
+          <div class="info-item" *ngIf="actor.birth_date">
+            <i class="bi bi-calendar me-2 text-primary"></i>
+            <strong>Birth Date:</strong> {{ actor.birth_date | date:'longDate' }}
+            <span *ngIf="calculateAge(actor.birth_date) !== null">
+              (Age: {{ calculateAge(actor.birth_date) }})
+            </span>
+          </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <i class="bi bi-film"></i>
+            <div class="stat-value">{{ actor.movies.length || 0 }}</div>
+            <div class="stat-label">Movies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filmography -->
+    <div class="filmography mt-5" *ngIf="actor.movies && actor.movies.length > 0">
+      <h2 class="mb-4">
+        <i class="bi bi-camera-reels me-2"></i>Filmography
+      </h2>
+      
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4" *ngFor="let movie of actor.movies">
+          <div class="movie-card h-100">
+            <a [routerLink]="['/movies', movie.id]" class="text-decoration-none">
+              <div class="card h-100 shadow-sm hover-effect">
+                <img 
+                  *ngIf="movie.poster_url"
+                  [src]="movie.poster_url" 
+                  class="card-img-top"
+                  [alt]="movie.title"
+                  onerror="this.src='https://via.placeholder.com/300x450?text=No+Poster'"
+                >
+                <div *ngIf="!movie.poster_url" class="card-img-top placeholder-poster">
+                  <i class="bi bi-film"></i>
+                </div>
+                
+                <div class="card-body">
+                  <h5 class="card-title">{{ movie.title }}</h5>
+                  <p class="card-text text-muted">
+                    <i class="bi bi-calendar3 me-1"></i>{{ movie.release_year }}
+                  </p>
+                  <div class="rating" *ngIf="movie.rating">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    <span class="ms-1">{{ movie.rating }}/10</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Movies Message -->
+    <div *ngIf="!actor.movies || actor.movies.length === 0" class="alert alert-info mt-5">
+      <i class="bi bi-info-circle me-2"></i>No movies found for this actor.
+    </div>
+  </div>
+</div>
