@@ -62,7 +62,7 @@ movie-explorer-platform/
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/movie-explorer-platform.git
+git clone https://github.com/winston-dsouza/movie-explorer-platform.git
 cd movie-explorer-platform
 ```
 
