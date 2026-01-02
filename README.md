@@ -72,7 +72,7 @@ docker-compose up --build
 ```
 
 3. **Access the application**
-- Frontend: http://localhost
+- Frontend: http://localhost:4200
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
 
@@ -233,22 +233,7 @@ cd frontend
 ng e2e
 ```
 
-## 📝 Environment Variables
-
-### Backend
-Create a `.env` file in the `backend` directory:
-```env
-DATABASE_URL=sqlite:///./movie_explorer.db
-SECRET_KEY=your-secret-key-here
-DEBUG=True
-```
-
-### Frontend
-Environment files are located in `frontend/src/environments/`:
-- `environment.ts` - Development configuration
-- `environment.prod.ts` - Production configuration
-
-## 🚢 Deployment
+##  Deployment
 
 ### Using Docker Compose
 
@@ -257,7 +242,7 @@ docker-compose up -d
 ```
 
 The application will be available at:
-- Frontend: http://localhost
+- Frontend: http://localhost:4200
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
 
